@@ -5,22 +5,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" id="theme-stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/1d4492f199.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <div id="app">
+    <div id="eLearingApp">
+        <header class="header">
+            <nav class="navbar navbar-expand-lg navbar-dark py-4 shadow-sm bg-dark" style=" height: 80px;">
+                <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand text-light" href="#"><img src="images/logo.png" alt="" width="120" height="120"></a>
+                </div>
+
+                <div class="p-3 shadow-sm index-forward border-top" id="search">
+                    <form class="navbar-form navbar-left">
+                        <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="search" v-model="search">
+                        </div>
+                    </form>
+                </div>
+
+                </div>
+            </nav>
+            <nav class="navbar navbar-expand-lg navbar-dark py-0 shadow-sm bg-light" style="height: 45px ;">
+                <div class="container-fluid">
+                <div class="navbar-header">
+                    <!--<a class="navbar-brand text-dark" href="#">E-Learning</a>-->
+                    <select v-model="sorting" align="left">
+                        <option disabled value="">Sort by</option>
+                        <option value="price">Price</option>
+                        <option value="location">Location</option>
+                        <option value="subject">Subject</option>
+                        <option value="spaces">Availability</option>
+                    </select>
+
+                    <select v-model="order" align="left">
+                        <option disabled value="">Order in</option>
+                        <option value="ascending">Ascending</option>
+                        <option value="descending">Descending</option>
+                    </select><br />
+                </div>
+                
+                <ul class="nav navbar-nav">
+                    <!-- if the item in the cart is more than 0 the button is enabled and clickable-->
+                    <li v-if="this.cart.length > 0">
+                        <button v-on:click="togglePage" class="btn-light">{{cartItemCount}} 
+                        <i class="fa-solid fa-cart-shopping"></i>  Cart</button>
+                    </li>
+                    <li v-else><button disabled="true" class="btn-light"><i class="fa-solid fa-cart-shopping"></i>  Cart</button></li>
+                </ul>
+                
+                </div>
+            </nav>
+        </header>
+          <br><br>
         <main>
-            <div class="row classes">
+            <!--if home page is true -->
+            <div class="row classes" v-if="HomePage">
                 <!-- to call classes.js-->
-                <div class="col col-expand" v-for="lecture in classes">
-                    <p>Subject: <b v-text="lecture.subject"></b></p>
-                    <p>Location: <b v-text="lecture.location"></b></p>
-                    <p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>
-                    <p>Price: <b class="price">${{ lecture.price }}</b></p>
+                <div class="card" align="left" style="width:270px;" v-for="lecture in searchSortLecture" :key="lecture.id">
+                    <img v-bind:src="lecture.image" style="width:270px; height:200px;">
+                    <div class="card-body">
+                        <h4>Subject: <b v-text="lecture.subject"></b></h4>
+                        <p>Location: <b v-text="lecture.location"></b></p>
+                        <p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>
+                        <p>Price: <b class="price">${{ lecture.price }}</b></p>
+                    </div>
 
                     <!-- adding the add to cart button-->
                     <button class="btn btn-secondary btn-lg" v-on:click="addToCart(lecture)" v-if="canAddToCart(lecture)">
@@ -30,11 +84,32 @@
                     <button disabled="true" class="btn btn-secondary btn-lg" v-else>
                         Add to cart
                     </button>
+                    <br>   
+                </div> 
+            </div>    
+
+            <!--if home page is false-->
+            <div class="row classes" v-else>
+                <!-- to call classes.js-->
+                <div class="card" align="left" style="width:270px;" v-for="lecture in cart">
+                    <img v-bind:src="lecture.image">
+                    <div class="card-body">
+                        <p>Subject: <b v-text="lecture.subject"></b></p>
+                        <p>Location: <b v-text="lecture.location"></b></p>
+                        <p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>
+                        <p>Price: <b class="price">${{ lecture.price }}</b></p>
+                    </div>
+
+                    <!-- to call the removeFromCart() method which would remove the items from the cart when the button is clicked on-->
+                    <button class="btn btn-secondary btn-lg" v-on:click="removeFromCart()">
+                        Remove from cart
+                    </button>
+
 
 
                     
                 </div> 
-            </div>    
+            </div>  
         </main><br />
     </div>
 
