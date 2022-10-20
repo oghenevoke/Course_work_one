@@ -1,5 +1,5 @@
 var classes = [
-    { id: 1, subject: 'Mathematics', location: 'Barnet', price: 200, spaces: 5, image: "images/mathematics.png" },
+    { id: 1, subject: 'Mathematics', location: 'Barnet', price: 200, spaces: 5, image: "images/mathematics.png", fontAwesomeIcon: "fa-solid fa-calculator" },
     { id: 2, subject: 'English Language', location: 'Hendon', price: 100, spaces: 5, image: "images/english.png" },
     { id: 3, subject: 'Computer Science', location: 'Burnt Oak', price: 500, spaces: 5, image: "images/ComputerScience.png" },
     { id: 4, subject: 'Business Studies', location: 'Addington', price: 50, spaces: 5, image: "images/BusinessStudies.png" },
@@ -18,5 +18,5 @@ var classes = [
     { id: 17, subject: 'Psychology', location: 'New Beckenham', price: 1500, spaces: 5, image: "images/psychology.png" },
     { id: 18, subject: 'Drama', location: 'Upperhill', price: 200, spaces: 5, image: "images/drama.png" },
     { id: 19, subject: 'French', location: 'Turfnell Park', price: 2000, spaces: 5, image: "images/french.png" },
-    { id: 20, subject: 'German', location: 'The Borough', price: 2500, spaces: 5, image: "images/german.png" },
+    { id: 20, subject: 'German', location: 'The Borough', price: 2500, spaces: 5, image: "images/german.png"  },
 ];

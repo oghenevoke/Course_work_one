@@ -10,12 +10,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/1d4492f199.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-    <title>Document</title>
+    <title>Web-based mobile app development course work 1</title>
 </head>
 <body>
     <div id="eLearingApp">
         <header class="header">
-            <nav class="navbar navbar-expand-lg navbar-dark py-4 shadow-sm bg-dark" style=" height: 80px;">
+            <nav class="navbar navbar-expand-lg navbar-dark py-4 shadow-sm bg-info" style=" height: 80px;">
                 <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand text-light" href="#"><img src="images/logo.png" alt="" width="120" height="120"></a>
@@ -31,7 +31,7 @@
 
                 </div>
             </nav>
-            <nav class="navbar navbar-expand-lg navbar-dark py-0 shadow-sm bg-light" style="height: 45px ;">
+            <nav class="navbar navbar-expand-lg navbar-dark py-0 shadow-sm bg-dark" style="height: 45px ;">
                 <div class="container-fluid">
                 <div class="navbar-header">
                     <!--<a class="navbar-brand text-dark" href="#">E-Learning</a>-->
@@ -53,6 +53,7 @@
                 <ul class="nav navbar-nav">
                     <!-- if the item in the cart is more than 0 the button is enabled and clickable-->
                     <li v-if="this.cart.length > 0">
+                        <!-- when clicked on displays the cart item -->
                         <button v-on:click="togglePage" class="btn-light">{{cartItemCount}} 
                         <i class="fa-solid fa-cart-shopping"></i>  Cart</button>
                     </li>
@@ -63,52 +64,54 @@
             </nav>
         </header>
           <br><br>
-        <main>
+        <main class="container" style="text-align:center;">
             <!--if home page is true -->
-            <div class="row classes" v-if="HomePage">
-                <!-- to call classes.js-->
-                <div class="card" align="left" style="width:270px;" v-for="lecture in searchSortLecture" :key="lecture.id">
-                    <img v-bind:src="lecture.image" style="width:270px; height:200px;">
-                    <div class="card-body">
-                        <h4>Subject: <b v-text="lecture.subject"></b></h4>
-                        <p>Location: <b v-text="lecture.location"></b></p>
-                        <p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>
-                        <p>Price: <b class="price">${{ lecture.price }}</b></p>
-                    </div>
+                <div class="row classes" v-if="HomePage">
+                    <!-- to call classes.js-->
+                    <div class="card" style="width:270px;" v-for="lecture in searchSortLecture" :key="lecture.id">
+                        <img v-bind:src="lecture.image" style="width:268px; height:200px;">
+                        <div class="card-body">
+                            <i v:bind:class="fontAwesomeIcon"></i>
+                            <h4 align="left">Subject: <b v-text="lecture.subject"></b></h4>
+                            <p align="left">Location: <b v-text="lecture.location"></b></p>
+                            <p align="left">Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p><!--the number of spaces reduces when an item is added to cart-->
+                            <p align="left">Price: <b class="price">${{ lecture.price }}</b></p>
+                        </div>
 
-                    <!-- adding the add to cart button-->
-                    <button class="btn btn-secondary btn-lg" v-on:click="addToCart(lecture)" v-if="canAddToCart(lecture)">
-                        Add to cart
-                    </button>
+                        <!-- adding the add to cart button-->
+                        <button class="btn btn-info text-light btn-lg" v-on:click="addToCart(lecture)" v-if="canAddToCart(lecture)">
+                            Add to cart
+                        </button>
 
-                    <button disabled="true" class="btn btn-secondary btn-lg" v-else>
-                        Add to cart
-                    </button>
-                    <br>   
-                </div> 
-            </div>    
+                        <button disabled="true" class="btn btn-secondary btn-lg" v-else>
+                            Add to cart
+                        </button>
+                        <br>   
+                    </div> 
+                </div>
+   
 
             <!--if home page is false-->
             <div class="row classes" v-else>
                 <!-- to call classes.js-->
                 <div class="card" align="left" style="width:270px;" v-for="lecture in cart">
-                    <img v-bind:src="lecture.image">
+                    <img v-bind:src="lecture.image" style="width:268px; height:200px;">
                     <div class="card-body">
                         <p>Subject: <b v-text="lecture.subject"></b></p>
                         <p>Location: <b v-text="lecture.location"></b></p>
-                        <p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>
+                        <!--<p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>-->
                         <p>Price: <b class="price">${{ lecture.price }}</b></p>
                     </div>
 
                     <!-- to call the removeFromCart() method which would remove the items from the cart when the button is clicked on-->
                     <button class="btn btn-secondary btn-lg" v-on:click="removeFromCart()">
                         Remove from cart
-                    </button>
-
-
-
-                    
-                </div> 
+                    </button>  
+                </div><br /><br /><br /><br />
+                <!--takes you back to homepage when clicked on-->
+              <!--  <div class="col-md-12 text-center">
+                    <button class="btn btn-info btn-lg text-light" v-on:click="togglePage" align="center">Back to HomePage</button>
+                </div> -->
             </div>  
         </main><br />
     </div>

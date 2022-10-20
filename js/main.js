@@ -5,44 +5,74 @@ const app = new Vue({
         cart: [], 
         sorting: "", //this is to sort by price, subject, location or availability/spaces
         order: "", // to order alpabetically in ascending or descending order
-        search: "",// to search by subject
+        search: "",// to search by subject and location
         HomePage: true
     },
 
     computed: {
-        //searches by subject
+        //searches by subject and location
         searchSortLecture: function(){
             tempLecture = this.classes;
+            
             if(this.search != "" && this.search){
                 tempLecture = tempLecture.filter((lecture) => {
-                    return(lecture.subject.toLowerCase().match(this.search.toLowerCase()));
-                });
+                    return(lecture.subject.toLowerCase().match(this.search.toLowerCase()) || lecture.location.toLowerCase().match(this.search.toLowerCase()));
+                })
             }
-
+            
             tempLecture = tempLecture.sort((a, b) => {
-                if (this.sorting == "subject"){
-                    if (a.subject.toLowerCase() < b.subject.toLowerCase()){
-                        return -1
+                if(this.order == "ascending"){
+                    if (this.sorting == "subject"){
+                        if (a.subject.toLowerCase() < b.subject.toLowerCase()){
+                            return -1
+                        }
+                        if (a.subject.toLowerCase() > b.subject.toLowerCase()){
+                            return 1
+                        }
+                        return 0
                     }
-                    if (a.subject.toLowerCase() > b.subject.toLowerCase()){
-                        return 1
+                    if (this.sorting == "location"){
+                        if (a.location.toLowerCase() < b.location.toLowerCase()){
+                            return -1
+                        }
+                        if (a.location.toLowerCase() > b.location.toLowerCase()){
+                            return 1
+                        }
+                        return 0
                     }
-                    return 0
-                }
-                if (this.sorting == "location"){
-                    if (a.location.toLowerCase() < b.location.toLowerCase()){
-                        return -1
+                    if(this.sorting == "price"){
+                        return a.price - b.price;
                     }
-                    if (a.location.toLowerCase() > b.location.toLowerCase()){
-                        return 1
+                    if (this.sorting == "spaces"){
+                        return a.spaces - b.spaces;
                     }
-                    return 0
-                }
-                if(this.sorting == "price"){
-                    return a.price - b.price;
-                }
-                if (this.sorting == "spaces"){
-                    return a.spaces - b.spaces;
+                }else if(this.order == "descending"){
+                    if (this.sorting == "subject"){
+                        if (a.subject.toLowerCase() < b.subject.toLowerCase()){
+                            return 1
+                        }
+                        if (a.subject.toLowerCase() > b.subject.toLowerCase()){
+                            return -1
+                        }
+                        return 0
+                    }
+                    if (this.sorting == "location"){
+                        if (a.location.toLowerCase() < b.location.toLowerCase()){
+                            return 1
+                        }
+                        if (a.location.toLowerCase() > b.location.toLowerCase()){
+                            return -1
+                        }
+                        return 0
+                    }
+                    if(this.sorting == "price"){
+                        return b.price - a.price;
+                    }
+                    if (this.sorting == "spaces"){
+                        if (spaces <= 5){
+                            return b.spaces.cartCount(lecture) - a.spaces.cartCount(lecture);
+                        }
+                    }
                 }
             });
             
@@ -76,6 +106,8 @@ const app = new Vue({
             return count;
           },
         //don't understand this part
+        //this is just saying they are = to each other 
+        
         togglePage(){
             this.HomePage = !this.HomePage;
         },
@@ -83,7 +115,7 @@ const app = new Vue({
         removeFromCart(){
             this.cart.splice(this.cart.lecture, 1)
 
-            //when the cart is empty goes back to main page
+            //when the cart is empty goes back to home page
             if(this.cart.length <= 0){
                 this.togglePage();
             }
