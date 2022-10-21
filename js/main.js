@@ -6,6 +6,7 @@ const app = new Vue({
         sorting: "", //this is to sort by price, subject, location or availability/spaces
         order: "", // to order alpabetically in ascending or descending order
         search: "",// to search by subject and location
+        place_order: { firstName: "", lastName: "", phoneNumber: "",},
         HomePage: true
     },
 
@@ -120,6 +121,10 @@ const app = new Vue({
                 this.togglePage();
             }
         },
+
+        submitForm() {
+            alert('Submitted');
+        } 
     },
     
     filters: {
