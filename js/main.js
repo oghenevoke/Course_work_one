@@ -119,7 +119,7 @@ const app = new Vue({
             if(this.cart.length <= 0){
                 this.togglePage();
             }
-        }
+        },
     },
     
     filters: {

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/1d4492f199.js" crossorigin="anonymous"></script>
@@ -44,7 +44,7 @@
                     </select>
 
                     <select v-model="order" align="left">
-                        <option disabled value="">Order in</option>
+                        <option disabled value=""><i class="fa-solid fa-arrow-up-a-z"></i>Order in</option>
                         <option value="ascending">Ascending</option>
                         <option value="descending">Descending</option>
                     </select><br />
@@ -71,11 +71,11 @@
                     <div class="card" style="width:270px;" v-for="lecture in searchSortLecture" :key="lecture.id">
                         <img v-bind:src="lecture.image" style="width:268px; height:200px;">
                         <div class="card-body">
-                            <i v:bind:class="fontAwesomeIcon"></i>
+                            <i v-bind:class="lecture.fontAwesomeIcon" class="fa-3x"></i><br />
                             <h4 align="left">Subject: <b v-text="lecture.subject"></b></h4>
                             <p align="left">Location: <b v-text="lecture.location"></b></p>
-                            <p align="left">Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p><!--the number of spaces reduces when an item is added to cart-->
                             <p align="left">Price: <b class="price">${{ lecture.price }}</b></p>
+                            <p align="left">Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p><!--the number of spaces reduces when an item is added to cart-->
                         </div>
 
                         <!-- adding the add to cart button-->
@@ -94,20 +94,21 @@
             <!--if home page is false-->
             <div class="row classes" v-else>
                 <!-- to call classes.js-->
-                <div class="card" align="left" style="width:270px;" v-for="lecture in cart">
+                <div class="card" style="width:270px;" v-for="lecture in cart">
                     <img v-bind:src="lecture.image" style="width:268px; height:200px;">
                     <div class="card-body">
-                        <p>Subject: <b v-text="lecture.subject"></b></p>
-                        <p>Location: <b v-text="lecture.location"></b></p>
+                        <i v-bind:class="lecture.fontAwesomeIcon" class="fa-3x"></i><br />
+                        <h4 align="left">Subject: <b v-text="lecture.subject"></b></h4>
+                        <p align="left">Location: <b v-text="lecture.location"></b></p>
                         <!--<p>Spaces: <b v-text="lecture.spaces - cartCount(lecture)"></b></p>-->
-                        <p>Price: <b class="price">${{ lecture.price }}</b></p>
+                        <p align="left">Price: <b class="price">${{ lecture.price }}</b></p>
                     </div>
 
                     <!-- to call the removeFromCart() method which would remove the items from the cart when the button is clicked on-->
                     <button class="btn btn-secondary btn-lg" v-on:click="removeFromCart()">
                         Remove from cart
                     </button>  
-                </div><br /><br /><br /><br />
+                </div><br><br><br>
                 <!--takes you back to homepage when clicked on-->
               <!--  <div class="col-md-12 text-center">
                     <button class="btn btn-info btn-lg text-light" v-on:click="togglePage" align="center">Back to HomePage</button>
@@ -115,8 +116,6 @@
             </div>  
         </main><br />
     </div>
-
-
     <script src="js/classes.js"></script>
     <script src="js/main.js"></script>
 </body>
