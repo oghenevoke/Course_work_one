@@ -69,10 +69,8 @@ const app = new Vue({
                     if(this.sorting == "price"){
                         return b.price - a.price;
                     }
-                    if (this.sorting == "spaces"){
-                        if (spaces <= 5){
-                            return b.spaces.cartCount(lecture) - a.spaces.cartCount(lecture);
-                        }
+                    if (this.sorting === "spaces"){
+                            return b.spaces - a.spaces;         
                     }
                 }
             });
@@ -99,11 +97,11 @@ const app = new Vue({
         //calculating the number of items(spaces) being added to cart
         cartCount(lecture) {
             let count = 0;
-            for(var i = 0; i < this.cart.length; i++) {                        
-              if (this.cart[i] === lecture) {
-                count++;
-              }
-            }
+                for(var i = 0; i < this.cart.length; i++) {                        
+                    if (this.cart[i] === lecture) {
+                        count++;
+                    }
+                }
             return count;
           },
         //don't understand this part
