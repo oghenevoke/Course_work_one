@@ -40,7 +40,7 @@
                             <option value="price">Price</option>
                             <option value="location">Location</option>
                             <option value="subject">Subject</option>
-                            <option value="spaces">Availability</option>
+                            <option value="space">Availability</option>
                         </select>
 
                         <select v-model="order" align="left">
@@ -126,25 +126,26 @@
                             </h2>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12"><strong>First Name:</strong></div>
-                            <input v-model.trim="place_order.firstName" class="form-control" type="text"/>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12"><strong>Last Name:</strong></div>
-                            <input v-model.trim="place_order.lastName" class="form-control" type="text"/>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12"><strong>Phone Number:</strong></div>
-                            <input v-model="place_order.phoneNumber" class="form-control" type="number"/>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-info submit" v-on:click="submitForm">
-                                Place Order
-                            </button>
+                    <form class="form1">
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Name:</strong></div>
+                                <input v-model.trim="place_order.name" class="form-control" id="name" name="name" type="text" v-on:keypress="isLetter($event)"/>
+                                <span role="alert" id="nameError" aria-hidden="true">Please enter only characters</span>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Phone Number:</strong></div>
+                                <input v-model="place_order.phoneNumber" class="form-control" id="phoneNumber" name="phoneNumber" v-on:keypress="isNumber($event)"/>
+                                <span role="alert" id="phoneNumberError" aria-hidden="true">Please enter only numbers</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-info submit" v-on:click="validate()">
+                                    Place Order
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>

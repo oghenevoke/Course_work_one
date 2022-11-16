@@ -6,7 +6,7 @@ const app = new Vue({
         sorting: "", //this is to sort by price, subject, location or availability/spaces
         order: "", // to order alpabetically in ascending or descending order
         search: "",// to search by subject and location
-        place_order: { firstName: "", lastName: "", phoneNumber: "",},
+        place_order: { name: "", phoneNumber: "",},
         HomePage: true
     },
 
@@ -44,8 +44,8 @@ const app = new Vue({
                     if(this.sorting == "price"){
                         return a.price - b.price;
                     }
-                    if (this.sorting == "spaces"){
-                        return a.spaces - b.spaces;
+                    if (this.sorting == "space"){
+                        return a.spaces - a.cartItemCount - (b.spaces - b.cartItemCount);
                     }
                 }else if(this.order == "descending"){
                     if (this.sorting == "subject"){
@@ -69,7 +69,7 @@ const app = new Vue({
                     if(this.sorting == "price"){
                         return b.price - a.price;
                     }
-                    if (this.sorting === "spaces"){
+                    if (this.sorting === "space"){
                             return b.spaces - a.spaces;         
                     }
                 }
@@ -120,9 +120,41 @@ const app = new Vue({
             }
         },
 
-        submitForm() {
-            alert('Submitted');
-        } 
+        isLetter(e) {
+            const nameField = document.getElementById("name");
+            let char = String.fromCharCode(e.keyCode);// Get the character
+            if(/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+            else{
+                const nameError = document.getElementById("nameError");
+                nameError.classList.add("visible");
+                nameField.classList.add("invalid");
+                nameError.setAttribute('aria-hidden', false);
+                nameError.setAttribute('aria-invalid', true);     
+            } 
+            return false;
+          },
+
+        isNumber(e) {
+            const phoneNumberField = document.getElementById("phoneNumber");
+            let char = String.fromCharCode(e.keyCode); // Get the character
+            if(/^[0-9]+$/.test(char)) return true; // Match with regex 
+            else{
+                const phoneNumberError = document.getElementById("phoneNumberError");
+                phoneNumberError.classList.add("visible");
+                phoneNumberField.classList.add("invalid");
+                phoneNumberError.setAttribute('aria-hidden', false);
+                phoneNumberError.setAttribute('aria-invalid', true);
+            }
+            return false;
+          },
+
+       
+
+        validate() {
+            alert('God please help me');
+        }
+                
+
     },
     
     filters: {
