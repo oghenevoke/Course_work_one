@@ -1,17 +1,1 @@
 p { font-family: Times New Roman; }
-
-#nameError,
-#phoneNumberError{
-  display: none;
-  font-size: 0.8em;
-  color: red;
-}
-
-#nameError.visible,
-#phoneNumberError.visible{
-  display: block;
-}
-
-input.invalid {
-  border-color: red;
-}
