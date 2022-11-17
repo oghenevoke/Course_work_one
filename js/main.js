@@ -4,10 +4,12 @@ const app = new Vue({
         classes: classes,
         cart: [], 
         sorting: "", //this is to sort by price, subject, location or availability/spaces
-        order: "", // to order alpabetically in ascending or descending order
+        order: "", // to order in ascending or descending order
         search: "",// to search by subject and location
-        place_order: { name: "", phoneNumber: "",},
-        HomePage: true
+        name: "", 
+        phoneNumber: "",
+        HomePage: true,
+        disabled: [true, true]
     },
 
     computed: {
@@ -69,8 +71,8 @@ const app = new Vue({
                     if(this.sorting == "price"){
                         return b.price - a.price;
                     }
-                    if (this.sorting === "space"){
-                            return b.spaces - a.spaces;         
+                    if (this.sorting == "space"){
+                            return b.spaces - b.cartItemCount - (a.spaces - a.cartItemCount);         
                     }
                 }
             });
@@ -84,8 +86,7 @@ const app = new Vue({
     },
 
     methods: {
-        //don't understand this part
-        //number of spaces should be greater than cartCount(lecture)
+        //returns number of spaces greater than cartCount(lecture) boolean data type
         canAddToCart(lecture) {
             return lecture.spaces > this.cartCount(lecture);
         },
@@ -94,7 +95,7 @@ const app = new Vue({
             this.cart.push(lecture);
             // console.log(lecture.id)
         },
-        //calculating the number of items(spaces) being added to cart
+        //counting the number of items(spaces) being added to cart
         cartCount(lecture) {
             let count = 0;
                 for(var i = 0; i < this.cart.length; i++) {                        
@@ -104,15 +105,14 @@ const app = new Vue({
                 }
             return count;
           },
-        //don't understand this part
-        //this is just saying they are = to each other 
-        
+    
+        //this is just saying they are equal to each other and whenever this method is used to toggle's to homepage when not and homepage and when not on home page to the check out page
         togglePage(){
             this.HomePage = !this.HomePage;
         },
         //removes items from cart and adds back the number of space
         removeFromCart(){
-            this.cart.splice(this.cart.lecture, 1)
+            this.cart.splice(this.cart.lecture, 1);
 
             //when the cart is empty goes back to home page
             if(this.cart.length <= 0){
@@ -120,44 +120,38 @@ const app = new Vue({
             }
         },
 
+        orderMessage() {
+            alert("Your Order has been successfully taken");
+            window.location.reload();
+          },
+
         isLetter(e) {
             const nameField = document.getElementById("name");
-            let char = String.fromCharCode(e.keyCode);// Get the character
-            if(/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
-            else{
-                const nameError = document.getElementById("nameError");
-                nameError.classList.add("visible");
-                nameField.classList.add("invalid");
-                nameError.setAttribute('aria-hidden', false);
-                nameError.setAttribute('aria-invalid', true);     
+            let char = String.fromCharCode(e.keyCode);// Gets the character
+            if(/^[A-Za-z]+$/.test(char)) {
+                nameField.style.border = "green solid 3px";
+                this.disabled = [false, this.disabled[1]]
             } 
-            return false;
+            else{
+                nameField.style.border = "red solid 3px";
+                this.disabled = [true, this.disabled[1]]
+            } 
+            
           },
 
         isNumber(e) {
             const phoneNumberField = document.getElementById("phoneNumber");
-            let char = String.fromCharCode(e.keyCode); // Get the character
-            if(/^[0-9]+$/.test(char)) return true; // Match with regex 
+            let char = String.fromCharCode(e.keyCode); // Gets the character
+            if(/^[0-9]+$/.test(char)){
+                phoneNumberField.style.border = "green solid 3px";
+                this.disabled = [this.disabled[0], false]
+            } 
             else{
-                const phoneNumberError = document.getElementById("phoneNumberError");
-                phoneNumberError.classList.add("visible");
-                phoneNumberField.classList.add("invalid");
-                phoneNumberError.setAttribute('aria-hidden', false);
-                phoneNumberError.setAttribute('aria-invalid', true);
+                phoneNumberField.style.border = "red solid 3px";
+                this.disabled = [this.disabled[0], true]
             }
-            return false;
-          },
-
-       
-
-        validate() {
-            alert('God please help me');
-        }
-                
-
-    },
-    
-    filters: {
+            
+          }, 
 
     },
 });
