@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css" id="theme-stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
@@ -54,12 +57,19 @@
                     <!-- if the item in the cart is more than 0 the button is enabled and clickable-->
                     <li v-if="this.cart.length > 0">
                         <!-- when clicked on displays the cart item -->
-                        <button v-on:click="togglePage" class="btn-light">{{cartItemCount}} 
-                        <i class="fa-solid fa-cart-shopping"></i>  Cart</button>
+                        <button v-on:click="togglePage" class="btn-light">
+                            <!--showing the number of lessons being added to cart-->
+                            {{cartItemCount}} 
+                        <i class="fa-solid fa-cart-shopping"></i>  Cart
+                        </button>
                     </li>
-                    <li v-else><button disabled="true" class="btn-light"><i class="fa-solid fa-cart-shopping"></i>  Cart</button></li>
+                    <li v-else>
+                        <!-- if the item in the cart is less than 0 the button is disabled-->
+                        <button disabled="true" class="btn-light">
+                        <i class="fa-solid fa-cart-shopping"></i>  Cart
+                        </button>
+                    </li>
                 </ul>
-                
                 </div>
             </nav>
         </header>
@@ -81,16 +91,18 @@
                                 Fully booked!
                             </span>
                             <span class="message"
-                                v-else>Book a lesson for your child with us today!
+                                v-else>Book a lesson with us today!
                             </span>
                         
                         </div>
 
                         <!-- adding the add to cart button-->
+                        <!--if there is still any space available button is enabled -->
                         <button class="btn btn-info text-light btn-lg" v-on:click="addToCart(lecture)" v-if="canAddToCart(lecture)">
                             Add to cart
                         </button>
 
+                        <!--if the number of spaces is = 0 the button is disabled -->
                         <button disabled="true" class="btn btn-secondary btn-lg" v-else>
                             Add to cart
                         </button>
@@ -99,7 +111,7 @@
                 </div>
    
 
-            <!--if home page is false-->
+            <!--if home page is false toggle's to checkout page-->
             <div class="row classes" v-else>
                 <!-- to call classes.js-->
                 <div class="card" style="width:270px;" v-for="lecture in cart">
@@ -113,7 +125,7 @@
                     </div>
 
                     <!-- to call the removeFromCart() method which would remove the items from the cart when the button is clicked on-->
-                    <button class="btn btn-secondary btn-lg" v-on:click="removeFromCart()">
+                    <button class="btn btn-secondary btn-lg" v-on:click="removeFromCart(lecture.id)">
                         Remove from cart
                     </button>  
                 </div>
@@ -126,28 +138,26 @@
                             </h2>
                         </div>
                     </div>
-                    <form class="form1">
+                    <form @submit.prevent>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Name:</strong></div>
-                                <input v-model.trim="place_order.name" class="form-control" id="name" name="name" type="text" v-on:keypress="isLetter($event)"/>
-                                <span role="alert" id="nameError" aria-hidden="true">Please enter only characters</span>
+                                <input v-model.trim="name" class="form-control" id="name" name="name" type="text" placeholder="Bxxxxxxx Exxxxxxx" v-on:keypress="isLetter($event)"/>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Phone Number:</strong></div>
-                                <input v-model="place_order.phoneNumber" class="form-control" id="phoneNumber" name="phoneNumber" v-on:keypress="isNumber($event)"/>
-                                <span role="alert" id="phoneNumberError" aria-hidden="true">Please enter only numbers</span>
+                                <input v-model="phoneNumber" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="+44 xxxxxxxxxx" v-on:keypress="isNumber($event)"/>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-info submit" v-on:click="validate()">
+                                <button type="submit" class="btn btn-info submit" :disabled="!disabled.every(i => i === false)" v-on:click="orderMessage">
                                     Place Order
                                 </button>
-
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+
         </main>
     </div>
                 
